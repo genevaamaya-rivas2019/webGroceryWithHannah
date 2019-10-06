@@ -16,7 +16,12 @@ $(document).ready(function () {
     }
 
     function addRow(item) {
-        var tr = $("<tr>")
+        var tr = $("<tr>", {
+            id: item._id,
+            name: item.item,
+            quan: item.quantity,
+            prio: item.priority
+        });
         var btns = $("<div>").append($("<button>", {
             class: "btn btn-primary update btn-sm up",
             "data-toggle": "modal",
@@ -47,7 +52,7 @@ $(document).ready(function () {
         var valid = true;
         $('.form-control').each(function () {
 
-         
+
             if (!$("#name").val()) {
                 valid = false;
                 Swal.fire({
@@ -132,26 +137,81 @@ $(document).ready(function () {
         });
     })
 
+    // $(document).on("click", ".update", function () {
+    //     var id = $(this).attr('id').split('_')
+    //     $('#btnUpdated').click(function () {
+    //         var formData = {
+    //             name: $("#updateName").val(),
+    //             quan: $("#updateQuan").val(),
+    //             prio: $("#updatePrio").val()
+    //         }
+    //         $.ajax({
+    //             url: "/item/update/" + id[1],
+    //             data: formData,
+    //             success: function (result) {
+    //                 retrieveItems();
+    //                 console.log('Success!!')
+    //                 $('input').val("");
+    //             },
+    //             error: function (e) {
+    //                 console.log("ERROR: ", e);
+    //             }
+    //         });
+    //     })
+    // })
+    var updateId;
     $(document).on("click", ".update", function () {
+        status = false;
+        retrieveOneItem($(this).parent().parent().parent().attr("id"));
         var id = $(this).attr('id').split('_')
-        $('#btnUpdated').click(function () {
-            var formData = {
-                name: $("#updateName").val(),
-                quan: $("#updateQuan").val(),
-                prio: $("#updatePrio").val()
-            }
-            $.ajax({
-                url: "/item/update/" + id[1],
-                data: formData,
-                success: function (result) {
-                    retrieveItems();
-                    console.log('Success!!')
-                },
-                error: function (e) {
-                    console.log("ERROR: ", e);
-                }
-            });
-        })
+        updateId = id[1];
+        $("#modalUpdate").show();
+        $("#tableItems").hide();
     })
+    $(document).on("click", "#btnUpdated", function () {
+        updateItem(updateId);
+        retrieveItems();
+        $("#modalUpdate").hide();
+        $("#tableItems").show();
+    })
+    //update Item function
+    function updateItem(id) {
+        var name = $('input[name="updateName"]');
+        var quan = $('input[name="updateQuantity"]');
+        var prio = $('input[name="updatePriority"]');
+        console.log(name+""+quan)
+        $.ajax({
+            url: "item/update/" + id + "",
+            crossDomain: true,
+            type: "put",
+            data: {
+                name: name.val(),
+                quan: quan.val(),
+                prio: prio.val(),
+            },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    }
+
+    function retrieveOneItem(id) {
+        $.ajax({
+            url: "item/retrieve/" + id + "",
+            crossDomain: true,
+            type: "GET",
+            success: function (data) {
+                $('#updateName').val(data.name);
+                $('#updateQuan').val(data.quan);
+                $('#updatePrio').val(data.prio);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    }
 
 })

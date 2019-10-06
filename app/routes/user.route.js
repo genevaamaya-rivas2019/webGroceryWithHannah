@@ -36,10 +36,12 @@ module.exports = function (app) {
 		users.delete(req, res);
 	});
 
-	app.get('/item/update/:id', (req, res) => {
-		users.save(req.query,res);	
-		console.log("Update Item running..");	
-		users.delete(req,res);
+	app.put('/item/update/:id', (req, res) => {
+		// users.save(req.query,res);	
+		// console.log("Update Item running..");	
+		// users.delete(req,res);
+		let id = req.params.id;
+		users.update(req,res,id);
 	});
 
 	app.get("*", (req, res) => {

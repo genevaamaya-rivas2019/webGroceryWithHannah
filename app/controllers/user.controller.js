@@ -60,4 +60,36 @@ exports.findAll = (res, search) => {
     //     });
     //     user.save()
     // }
+    exports.update = (req, res, id) => {
+        // Validate Request
+        // if(!req.body.content) {
+        //     return res.status(400).send({
+        //         message: "Note content can not be empty"
+        //     });
+        // }
+
+        // Find note and update it with the request body
+        User.findByIdAndUpdate(id, {
+            name: req.body.name,
+            quan: req.body.quan,
+            prio: req.body.prio
+        }, { new: true })
+            .then(items => {
+                if (!items) {
+                    return res.status(404).send({
+                        message: "Note not found with id " + id
+                    });
+                }
+                res.send(items);
+            }).catch(err => {
+                if (err.kind === 'ObjectId') {
+                    return res.status(404).send({
+                        message: "Note not found with id " + id
+                    });
+                }
+                return res.status(500).send({
+                    message: "Error updating note with id " + id
+                });
+            });
+    };
 };

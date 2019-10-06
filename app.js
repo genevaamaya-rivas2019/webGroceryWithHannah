@@ -14,7 +14,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
-mongoose.connect(dbConfig.url)
+mongoose.connect(dbConfig.url, { useFindAndModify: false })
     .then(() => {
         console.log("Successfully connected to MongoDB.");
     }).catch(err => {
