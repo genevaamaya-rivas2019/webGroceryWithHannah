@@ -4,8 +4,8 @@ module.exports = function (app) {
 	var router = express.Router();
 
 	const users = require('../controllers/user.controller.js');
+	app.use(express.static('public'))
 
-	var path = __basedir + '/views/';
 
 	router.use(function (req, res, next) {
 		console.log("/" + req.method);
@@ -13,19 +13,20 @@ module.exports = function (app) {
 	});
 
 	app.get('/', (req, res) => {
-		res.sendFile(path + "index.html");
+		res.sendFile(base + '/views/index.html');
 	});
 
 	// Save a User to MongoDB
 	// app.post('/api/users/save', users.save);
 
 
-	app.get("/item/retrieve/:item", (req, res) => {
-		var item_search = {}
-		if (req.params.item != "all") {
-			item_search.id = req.params.item
+	app.get("/item/retrieve/:id", (req, res) => {
+		if (req.params.id != "all") {
+			users.findOne(res, req.params.id)
+		} else {
+			users.findAll(res)
+
 		}
-		users.findAll(res, item_search)
 	})
 	// Retrieve all Users
 	app.get('/item/create', (req, res) => {
@@ -36,15 +37,15 @@ module.exports = function (app) {
 		users.delete(req, res);
 	});
 
-	app.put('/item/update/:id', (req, res) => {
+	app.put('/item/update', (req, res) => {
 		// users.save(req.query,res);	
-		// console.log("Update Item running..");	
+		console.log(req.body);
 		// users.delete(req,res);
-		let id = req.params.id;
-		users.update(req,res,id);
+		// let id = req.params.id;
+		users.update(res, req.body);
 	});
 
 	app.get("*", (req, res) => {
-		res.sendFile(path + "404.html");
+		res.sendFile("views/404.html");
 	});
 }
