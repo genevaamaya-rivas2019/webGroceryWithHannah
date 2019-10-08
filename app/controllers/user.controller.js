@@ -44,6 +44,8 @@ exports.delete = (req, res) => {
             console.log('deleted..')
         } else {
             console.log('Success')
+//             added response -yol
+            res.send("deleted");
         }
     });
 }
@@ -52,19 +54,22 @@ exports.update = (res, alldata) => {
     User.findByIdAndUpdate(alldata.id, alldata.newData, { new: true })
         .then(items => {
             if (!items) {
-                return res.status(404).send({
+                res.status(404).send({
                     message: "Note not found with id " + alldata.id
                 });
-            }
+            }else{
+//                 added else -yol
             res.send(items);
+            
+            }
         }).catch(err => {
             console.log(err)
             if (err.kind === 'ObjectId') {
-                return res.status(404).send({
+                 res.status(404).send({
                     message: "Note not found with id " + alldata.id
                 });
             }
-            return res.status(500).send({
+             res.status(500).send({
                 message: "Error updating note with id " + alldata.id
             });
         });
