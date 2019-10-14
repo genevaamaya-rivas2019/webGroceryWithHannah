@@ -58,8 +58,6 @@ $(document).ready(function () {
         var validPrio = $('#priority').val()
         var valid = true;
         $('.form-control').each(function () {
-
-
             if (!$("#name").val()) {
                 valid = false;
                 Swal.fire({
@@ -76,15 +74,14 @@ $(document).ready(function () {
                     showConfirmButton: false,
                     timer: 1000
                 })
-            } else if (!$("#priority").val()) {
+            } else if (!$("#priority").val() ||$("#priority").val() >3 ) {
                 valid = false;
                 Swal.fire({
                     type: 'error',
-                    title: 'Priority should be filled!!',
+                    title: 'Priority should be filled and must be below 3!!',
                     showConfirmButton: false,
                     timer: 1000
                 })
-
 
             }
         })
@@ -107,10 +104,10 @@ $(document).ready(function () {
                         title: 'Add Success!',
                         text: 'Item has been added!!!',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
                     })
+
                     addRow(result)
-                    $("#getResultDiv").html("<strong>Success!</strong>");
                     $('input').val("")
                 },
                 error: function (e) {
@@ -167,19 +164,18 @@ $(document).ready(function () {
 
     //update Item function
     function updateItem(id, newData) {
-
-        $.ajax({
-            url: "item/update",
-            crossDomain: true,
-            type: "put",
+        console.log(id)
+        $.post({
+            url: "/item/update",
             data: {
                 id: id,
                 newData: newData
             },
+            dataType: 'JSON',
             success: function (data) {
-                $('#'+data._id +" td.forName").text(data.name)
-                $('#'+data._id +" td.forQuan").text(data.quan)
-                $('#'+data._id +" td.forPrio").text(data.prio)
+                $('#' + data._id + " td.forName").text(data.name)
+                $('#' + data._id + " td.forQuan").text(data.quan)
+                $('#' + data._id + " td.forPrio").text(data.prio)
             },
             error: function (e) {
                 console.log(e);

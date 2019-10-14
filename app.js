@@ -2,13 +2,16 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-require('./app/routes/user.route.js')(app);
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
+app.use(bodyParser.json());
+
 app.use(express.static('public'))
 
-global.base = __dirname 
+global.base = __dirname
 // Configuring the database
 const dbConfig = require('./app/config/mongodb.config.js');
 const mongoose = require('mongoose');
@@ -23,6 +26,8 @@ mongoose.connect(dbConfig.url, { useFindAndModify: false })
         console.log('Could not connect to MongoDB.');
         process.exit();
     });
+    
+require('./app/routes/user.route.js')(app);
 
 
 // Create a Server
