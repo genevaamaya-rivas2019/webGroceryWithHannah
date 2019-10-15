@@ -86,8 +86,17 @@
 			margin-top: -43px;
 		}
 		#btnAddItem{
-			margin-top: -937px;
-    		margin-left: 200px;
+			top: 100px;
+			position: absolute;
+			left: 400px;
+			top: 260px;
+		}
+		#title{
+			margin-left: 500px;
+			margin-right: 500px;
+		}
+		#stat{
+			color: red;
 		}
 	</style>
 </head>
@@ -147,13 +156,13 @@
 				Item</button>
 		</div>
 
-
 		<!-- line modal -->
 		<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h3 class="modal-title" id="lineModalLabel">Add Item</h3>
+						<p id="stat"></p>
 					</div>
 					<div class="modal-body">
 
@@ -217,7 +226,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" data-dismiss="modal" id="btnUpdated">Update Item</button>
+						<button type="button" class="btn btn-primary"  id="btnUpdated">Update Item</button>
 					</div>
 				</div>
 			</div>

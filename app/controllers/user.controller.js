@@ -11,7 +11,7 @@ exports.save = (req, res) => {
         .then(data => {
             res.send(data);
         }).catch(err => {
-            res.status(500).send({
+            res.status(400).send({
                 message: err.message
             });
         });

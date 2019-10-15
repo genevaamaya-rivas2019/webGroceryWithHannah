@@ -41,7 +41,7 @@ module.exports = function (app) {
 		users.update(res, req.body);
 	});
 
-	app.get("*", (req, res) => {
-		res.sendFile("views/404.html");
-	});
+	// app.get("*", (req, res) => {
+	// 	res.sendFile("views/404.html");
+	// });
 }

@@ -74,7 +74,7 @@ $(document).ready(function () {
                     showConfirmButton: false,
                     timer: 1000
                 })
-            } else if (!$("#priority").val() ||$("#priority").val() >3 ) {
+            } else if (!$("#priority").val() || $("#priority").val() > 3) {
                 valid = false;
                 Swal.fire({
                     type: 'error',
@@ -111,7 +111,12 @@ $(document).ready(function () {
                     $('input').val("")
                 },
                 error: function (e) {
-                    $("#getResultDiv").html("<strong>Error</strong>");
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Item Name already exist!!!!',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
                     console.log("ERROR: ", e);
                 }
             });
@@ -120,10 +125,10 @@ $(document).ready(function () {
     })
 
 
-    $("#btnSearch").click(function (e) {
-        var id = $('.id_search').val()
-        retrieveItems(id)
-    })
+    // $("#btnSearch").click(function (e) {
+    //     var id = $('.id_search').val()
+    //     retrieveItems(id)
+    // })
 
     $(document).on("click", ".del", function () {
         var formData = {
@@ -178,6 +183,12 @@ $(document).ready(function () {
                 $('#' + data._id + " td.forPrio").text(data.prio)
             },
             error: function (e) {
+                Swal.fire({
+                    type: 'error',
+                    title: 'Item Name already exist!!!!',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
                 console.log(e);
             }
         })
